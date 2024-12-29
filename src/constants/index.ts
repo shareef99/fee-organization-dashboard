@@ -1,5 +1,3 @@
-export const localStorageKeys = {
-  accessToken: "accessToken",
-  refreshToken: "refreshToken",
-  user: "user",
-};
+export const localStoreKeys = {
+  store: "fee-organization-dashboard-store",
+} as const;

@@ -15,6 +15,7 @@ export default function PasswordInput({
 }: Props) {
   return (
     <MPasswordInput
+      withAsterisk={true}
       {...props}
       className={twMerge("bg-p-gray-light", className)}
       classNames={{

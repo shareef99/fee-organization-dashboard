@@ -2,28 +2,30 @@ import {
   Button as MButton,
   ButtonProps,
   ButtonStylesNames,
+  ElementProps,
 } from "@mantine/core";
 import { ReactNode } from "@tanstack/react-router";
 import { twMerge } from "tailwind-merge";
 
-type Props = ButtonProps & {
-  children: ReactNode;
-  classNames?: Partial<Record<ButtonStylesNames, string>>;
-  variant?:
-    | "primary"
-    | "primary-outline"
-    | "secondary"
-    | "secondary-outline"
-    | "accent"
-    | "accent-outline"
-    | "success"
-    | "success-outline"
-    | "warning"
-    | "warning-outline"
-    | "error"
-    | "error-outline"
-    | "transparent";
-};
+type Props = ElementProps<"button", keyof ButtonProps> &
+  ButtonProps & {
+    children: ReactNode;
+    classNames?: Partial<Record<ButtonStylesNames, string>>;
+    variant?:
+      | "primary"
+      | "primary-outline"
+      | "secondary"
+      | "secondary-outline"
+      | "accent"
+      | "accent-outline"
+      | "success"
+      | "success-outline"
+      | "warning"
+      | "warning-outline"
+      | "error"
+      | "error-outline"
+      | "transparent";
+  };
 export default function Button({
   classNames,
   variant = "primary",

@@ -5,6 +5,10 @@ import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/charts/styles.css";
 import "@mantine/notifications/styles.css";
+import { setUpInterceptors } from "@/axios";
+import { Notifications } from "@mantine/notifications";
+
+setUpInterceptors();
 
 export const Route = createRootRoute({
   component: () => (
@@ -14,6 +18,7 @@ export const Route = createRootRoute({
       }}
     >
       <Outlet />
+      <Notifications />
       <TanStackRouterDevtools />
     </MantineProvider>
   ),

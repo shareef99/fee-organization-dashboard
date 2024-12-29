@@ -11,6 +11,7 @@ type Props = TextInputProps & {
 export default function TextInput({ className, classNames, ...props }: Props) {
   return (
     <MTextInput
+      withAsterisk={true}
       {...props}
       className={twMerge("bg-p-gray-light", className)}
       classNames={{

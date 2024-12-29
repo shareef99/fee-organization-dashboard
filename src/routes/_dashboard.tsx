@@ -1,9 +1,18 @@
 import { AppShell, Burger, Group, ScrollArea, Skeleton } from "@mantine/core";
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { useDisclosure } from "@mantine/hooks";
+import { localStoreKeys } from "@/constants";
 
 export const Route = createFileRoute("/_dashboard")({
   component: RouteComponent,
+  beforeLoad: () => {
+    const localStorageString = localStorage.getItem(localStoreKeys.store);
+    const data = localStorageString ? JSON.parse(localStorageString) : null;
+
+    if (!data?.state?.user) {
+      throw redirect({ from: "/", to: "/login" });
+    }
+  },
 });
 
 function RouteComponent() {
