@@ -8,6 +8,25 @@
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
   --breakpoint-2xl: 1408px;
+
+  --color-p-text: #22262a;
+  --color-p-background: #ced4da;
+
+  --color-p-primary: #00897b;
+  --color-p-primary-dark: #00695c;
+
+  --color-p-secondary: #9cbad7;
+
+  --color-p-accent: #709ecd;
+  --color-p-accent-dark: #2e6da4;
+
+  --color-p-success: #4caf50;
+  --color-p-warning: #fd7e14;
+  --color-p-error: #d32f2f;
+
+  --color-p-gray-light: #f8f9fa;
+  --color-p-gray-medium: #e0e0e0;
+  --color-p-gray-dark: #343a40;
 }
 
 * {
