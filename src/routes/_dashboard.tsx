@@ -1,7 +1,14 @@
-import { AppShell, Burger, Group, ScrollArea, Skeleton } from "@mantine/core";
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { AppShell, Burger, NavLink, ScrollArea } from "@mantine/core";
+import {
+  createFileRoute,
+  Link,
+  Outlet,
+  redirect,
+} from "@tanstack/react-router";
 import { useDisclosure } from "@mantine/hooks";
 import { localStoreKeys } from "@/constants";
+import { useUser } from "@/store";
+import { twMerge } from "tailwind-merge";
 
 export const Route = createFileRoute("/_dashboard")({
   component: RouteComponent,
@@ -18,41 +25,58 @@ export const Route = createFileRoute("/_dashboard")({
 function RouteComponent() {
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
+  const user = useUser();
+
   return (
     <AppShell
       header={{ height: 60 }}
       navbar={{
-        width: 300,
+        width: 250,
         breakpoint: "sm",
         collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
       }}
       padding="md"
+      bg="var(--color-p-gray-medium)"
     >
-      <AppShell.Header>
-        <Group h="100%" px="md">
-          <Burger
-            opened={mobileOpened}
-            onClick={toggleMobile}
-            hiddenFrom="sm"
-            size="sm"
-          />
-          <Burger
-            opened={desktopOpened}
-            onClick={toggleDesktop}
-            visibleFrom="sm"
-            size="sm"
-          />
-          Organization Logo
-        </Group>
+      <AppShell.Header className="flex items-center px-2 gap-2 border-p-gray-dark! bg-p-gray-medium!">
+        <Burger
+          opened={mobileOpened}
+          onClick={toggleMobile}
+          hiddenFrom="sm"
+          size="sm"
+        />
+        <Burger
+          opened={desktopOpened}
+          onClick={toggleDesktop}
+          visibleFrom="sm"
+          size="sm"
+        />
+        Welcome {user?.name}
       </AppShell.Header>
-      <AppShell.Navbar p="md">
+      <AppShell.Navbar className="bg-p-gray-medium! border-p-gray-dark!">
         <AppShell.Section grow component={ScrollArea}>
-          60 links in a scrollable section
-          {Array(60)
-            .fill(0)
-            .map((_, index) => (
-              <Skeleton key={index} h={28} mt="sm" animate={false} />
-            ))}
+          <Link to="/organization">
+            {({ isActive }) => (
+              <NavLink
+                label="Organization"
+                className={twMerge(
+                  "text-p-text text- font-medium hover:bg-p-gray-light!",
+                  isActive && "bg-p-gray-light! hover:bg-p-gray-light!"
+                )}
+              />
+            )}
+          </Link>
+          <Link to="/staff">
+            {({ isActive }) => (
+              <NavLink
+                label="Staff"
+                className={twMerge(
+                  "text-p-text text- font-medium hover:bg-p-gray-light!",
+                  isActive && "bg-p-gray-light! hover:bg-p-gray-light!"
+                )}
+              />
+            )}
+          </Link>
         </AppShell.Section>
         <AppShell.Section>
           Navbar footer - always at the bottom
