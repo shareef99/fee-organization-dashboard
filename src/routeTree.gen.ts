@@ -15,6 +15,7 @@ import { Route as DashboardImport } from './routes/_dashboard'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
 import { Route as DashboardStaffIndexImport } from './routes/_dashboard/staff/index'
+import { Route as DashboardProfileIndexImport } from './routes/_dashboard/profile/index'
 import { Route as DashboardOrganizationIndexImport } from './routes/_dashboard/organization/index'
 import { Route as AuthLoginIndexImport } from './routes/_auth/login/index'
 
@@ -39,6 +40,12 @@ const IndexRoute = IndexImport.update({
 const DashboardStaffIndexRoute = DashboardStaffIndexImport.update({
   id: '/staff/',
   path: '/staff/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardProfileIndexRoute = DashboardProfileIndexImport.update({
+  id: '/profile/',
+  path: '/profile/',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -95,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardOrganizationIndexImport
       parentRoute: typeof DashboardImport
     }
+    '/_dashboard/profile/': {
+      id: '/_dashboard/profile/'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof DashboardProfileIndexImport
+      parentRoute: typeof DashboardImport
+    }
     '/_dashboard/staff/': {
       id: '/_dashboard/staff/'
       path: '/staff'
@@ -119,11 +133,13 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface DashboardRouteChildren {
   DashboardOrganizationIndexRoute: typeof DashboardOrganizationIndexRoute
+  DashboardProfileIndexRoute: typeof DashboardProfileIndexRoute
   DashboardStaffIndexRoute: typeof DashboardStaffIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardOrganizationIndexRoute: DashboardOrganizationIndexRoute,
+  DashboardProfileIndexRoute: DashboardProfileIndexRoute,
   DashboardStaffIndexRoute: DashboardStaffIndexRoute,
 }
 
@@ -136,6 +152,7 @@ export interface FileRoutesByFullPath {
   '': typeof DashboardRouteWithChildren
   '/login': typeof AuthLoginIndexRoute
   '/organization': typeof DashboardOrganizationIndexRoute
+  '/profile': typeof DashboardProfileIndexRoute
   '/staff': typeof DashboardStaffIndexRoute
 }
 
@@ -144,6 +161,7 @@ export interface FileRoutesByTo {
   '': typeof DashboardRouteWithChildren
   '/login': typeof AuthLoginIndexRoute
   '/organization': typeof DashboardOrganizationIndexRoute
+  '/profile': typeof DashboardProfileIndexRoute
   '/staff': typeof DashboardStaffIndexRoute
 }
 
@@ -154,14 +172,15 @@ export interface FileRoutesById {
   '/_dashboard': typeof DashboardRouteWithChildren
   '/_auth/login/': typeof AuthLoginIndexRoute
   '/_dashboard/organization/': typeof DashboardOrganizationIndexRoute
+  '/_dashboard/profile/': typeof DashboardProfileIndexRoute
   '/_dashboard/staff/': typeof DashboardStaffIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/login' | '/organization' | '/staff'
+  fullPaths: '/' | '' | '/login' | '/organization' | '/profile' | '/staff'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/login' | '/organization' | '/staff'
+  to: '/' | '' | '/login' | '/organization' | '/profile' | '/staff'
   id:
     | '__root__'
     | '/'
@@ -169,6 +188,7 @@ export interface FileRouteTypes {
     | '/_dashboard'
     | '/_auth/login/'
     | '/_dashboard/organization/'
+    | '/_dashboard/profile/'
     | '/_dashboard/staff/'
   fileRoutesById: FileRoutesById
 }
@@ -213,6 +233,7 @@ export const routeTree = rootRoute
       "filePath": "_dashboard.tsx",
       "children": [
         "/_dashboard/organization/",
+        "/_dashboard/profile/",
         "/_dashboard/staff/"
       ]
     },
@@ -222,6 +243,10 @@ export const routeTree = rootRoute
     },
     "/_dashboard/organization/": {
       "filePath": "_dashboard/organization/index.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/profile/": {
+      "filePath": "_dashboard/profile/index.tsx",
       "parent": "/_dashboard"
     },
     "/_dashboard/staff/": {

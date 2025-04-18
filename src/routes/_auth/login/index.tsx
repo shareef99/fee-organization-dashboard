@@ -9,13 +9,13 @@ import { z } from "zod";
 import { useForm, zodResolver } from "@mantine/form";
 import { useUserActions } from "@/store";
 import { jwtDecode } from "jwt-decode";
-import { parseError } from "@/helper";
+import { parseError } from "@/helpers";
 import {
   errorNotification,
   loadingNotification,
   notificationMessages,
   successNotification,
-} from "@/helper/notification";
+} from "@/helpers/notification";
 import { axiosClient } from "@/axios";
 
 export const Route = createFileRoute("/_auth/login/")({
