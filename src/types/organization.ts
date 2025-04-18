@@ -4,6 +4,7 @@ export type Organization = {
   email: string;
   mobile: string;
   address: string;
+  is_active: boolean;
   created_at: string;
   updated_at: string;
 };
