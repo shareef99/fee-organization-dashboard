@@ -10,6 +10,7 @@ export default function Paper(props: Props) {
       withBorder
       shadow="md"
       radius="md"
+      p="md"
       bg="var(--color-p-gray-light)"
       {...props}
     />
