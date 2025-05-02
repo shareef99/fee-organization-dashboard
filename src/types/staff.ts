@@ -7,6 +7,7 @@ export type Staff = {
   email: string;
   role: StaffRole;
   mobile: string;
+  is_active: boolean;
   updated_at: string | null;
   created_at: string;
 };

@@ -1,21 +1,13 @@
 import axios from "axios";
-import { localStoreKeys } from "./constants";
-import { User } from "./types/user";
 
 export const axiosClient = axios.create({
   baseURL: import.meta.env.VITE_BASEURL,
+  withCredentials: true,
 });
 
 export const setUpInterceptors = () => {
   axiosClient.interceptors.request.use(
     (request) => {
-      const storeString = localStorage.getItem(localStoreKeys.store);
-      const user: User | null = storeString
-        ? JSON.parse(storeString).state.user
-        : null;
-
-      request!.headers!["Authorization"] =
-        `Bearer ${user ? user.accessToken : "No token"}`;
       return request;
     },
     (error) => {
@@ -33,24 +25,7 @@ export const setUpInterceptors = () => {
         if (error.response.status === 401 && !originalConfig._retry) {
           originalConfig._retry = true;
           try {
-            const storeString = localStorage.getItem(localStoreKeys.store);
-            const user: User | null = storeString
-              ? JSON.parse(storeString).state.user
-              : null;
-
-            if (!user) {
-              return Promise.reject(error);
-            }
-
-            const res = await axiosClient.post("/staff/refresh", {
-              refreshToken: user.refreshToken,
-            });
-            const { accessToken } = res.data;
-            localStorage.setItem(
-              localStoreKeys.store,
-              JSON.stringify({ state: { user: { ...user, accessToken } } })
-            );
-
+            await axiosClient.post("/staff/refresh");
             return axiosClient(originalConfig);
           } catch (error) {
             return Promise.reject(error);

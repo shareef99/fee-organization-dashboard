@@ -70,8 +70,6 @@ function RouteComponent() {
         email: decode.email,
         role: decode.role,
         mobile: decode.mobile,
-        accessToken: responseData.accessToken,
-        refreshToken: responseData.refreshToken,
       });
 
       successNotification({

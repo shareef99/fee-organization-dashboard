@@ -8,9 +8,10 @@ import {
   notificationMessages,
   successNotification,
 } from "@/helpers/notification";
-import { useEditOrganization } from "@/routes/_dashboard/organization/-queries";
-import { activeStatuses } from "@/types/enums";
-import { Organization } from "@/types/organization";
+import { useEditStaff } from "@/routes/_dashboard/staff/-queries";
+import { useUser } from "@/store";
+import { staffRoles } from "@/types/enums";
+import { Staff } from "@/types/staff";
 import { ModalProps } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
@@ -18,52 +19,51 @@ import { z } from "zod";
 const schema = z.object({
   name: z.string().min(1, "Required"),
   email: z.string().email(),
+  role: z.enum(staffRoles),
   mobile: z.string().min(1, "Required"),
-  address: z.string().min(1, "Required"),
-  is_active: z.enum(activeStatuses),
 });
 
 type FormValues = z.infer<typeof schema>;
 
 type Props = ModalProps & {
-  organization: Organization;
+  staff: Staff;
 };
-export default function EditOrganizationModal({
-  organization,
-  ...props
-}: Props) {
+export default function EditStaffModal({ staff, ...props }: Props) {
+  const user = useUser();
+
   // Form
   const { getInputProps, onSubmit, submitting } = useForm<FormValues>({
     validate: zodResolver(schema),
     initialValues: {
-      name: organization.name,
-      email: organization.email,
-      mobile: organization.mobile,
-      address: organization.address,
-      is_active: organization.is_active ? "active" : "inactive",
+      name: staff.name,
+      email: staff.email,
+      role: staff.role,
+      mobile: staff.mobile,
     },
   });
 
   // Mutation
-  const { mutateAsync } = useEditOrganization();
+  const { mutateAsync } = useEditStaff();
 
   const submitHandler = async (data: FormValues) => {
+    if (!user) return;
+
     loadingNotification({
       id: "edit",
-      title: "Organization",
+      title: "Staff",
       message: notificationMessages.loading,
     });
 
     await mutateAsync(
       {
-        payload: { ...data, is_active: data.is_active === "active" },
-        id: organization.id,
+        payload: { ...data, organization_id: user.organization_id },
+        id: staff.id,
       },
       {
         onSuccess: () => {
           successNotification({
             id: "edit",
-            title: "Organization",
+            title: "Staff",
             message: notificationMessages.added,
           });
           props.onClose();
@@ -71,7 +71,7 @@ export default function EditOrganizationModal({
         onError: () => {
           successNotification({
             id: "edit",
-            title: "Organization",
+            title: "Staff",
             message: notificationMessages.error,
           });
         },
@@ -80,7 +80,7 @@ export default function EditOrganizationModal({
   };
 
   return (
-    <Modal {...props} title="Add Organization">
+    <Modal {...props} title="Edit Staff">
       <form onSubmit={onSubmit(submitHandler)} className="space-y-2">
         <TextInput
           label="Name"
@@ -97,19 +97,14 @@ export default function EditOrganizationModal({
           placeholder="Enter Mobile"
           {...getInputProps("mobile")}
         />
-        <TextInput
-          label="Address"
-          placeholder="Enter Address"
-          {...getInputProps("address")}
-        />
         <Select
-          label="Active"
-          placeholder="Select Active"
-          data={activeStatuses.map((status) => ({
-            label: capitalize(status),
-            value: status,
+          label="Role"
+          placeholder="Select Role"
+          {...getInputProps("role")}
+          data={staffRoles.map((role) => ({
+            value: role,
+            label: capitalize(role),
           }))}
-          {...getInputProps("is_active")}
         />
         <Button type="submit" loading={submitting} fullWidth>
           Save

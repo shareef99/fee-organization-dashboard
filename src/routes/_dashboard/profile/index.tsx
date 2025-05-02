@@ -1,9 +1,18 @@
-import { createFileRoute } from '@tanstack/react-router'
+import Button from "@/components/mantine-wrappers/button";
+import { useUserActions } from "@/store";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/_dashboard/profile/')({
+export const Route = createFileRoute("/_dashboard/profile/")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <div>Hello "/_dashboard/profile/"!</div>
+  const { logout } = useUserActions();
+
+  return (
+    <div>
+      Hello "/_dashboard/profile/"!
+      <Button onClick={logout}>Logout</Button>
+    </div>
+  );
 }

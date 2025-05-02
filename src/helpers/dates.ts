@@ -38,8 +38,9 @@ export const dateFormat = {
  * formatDate(new Date(), "dateWithTimeFormat"); // e.g., "05 Jan, 2025 14:30:45"
  */
 export const formatDate = (
-  date: Date | string,
+  date: Date | string | null,
   format: keyof typeof dateFormat = "default"
 ): string => {
+  if (!date) return "-";
   return dayjs(date).format(dateFormat[format]);
 };

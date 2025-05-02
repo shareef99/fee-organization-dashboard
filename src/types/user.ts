@@ -7,6 +7,4 @@ export type User = {
   email: string;
   role: StaffRole;
   mobile: string;
-  accessToken: string;
-  refreshToken: string;
 };
