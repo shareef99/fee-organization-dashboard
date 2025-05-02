@@ -1,4 +1,5 @@
 import { AxiosError } from "axios";
+import { z } from "zod";
 
 /**
  * Parses an error object and returns a readable error message.
@@ -190,3 +191,44 @@ export function formatNumber(
 
   return n.toLocaleString(locale, options);
 }
+
+/**
+ * Parses and validates the `id` parameter from URL params.
+ *
+ * This reusable helper function leverages Zod to ensure the `id` parameter
+ * is a valid number. It is designed to integrate with the TanStack Router
+ * for parsing and type-safe handling of dynamic URL parameters.
+ *
+ * @example
+ * ```typescript
+ * import { parseIdParams } from "@/helpers";
+ * import { createFileRoute } from "@tanstack/react-router";
+ *
+ * export const Route = createFileRoute("/_dashboard/users/$id")({
+ *   component: RouteComponent,
+ *   params: { parse: parseIdParams },
+ * });
+ *
+ * function RouteComponent() {
+ *   const { id } = Route.useParams();
+ *   return <div>Hello "/_dashboard/users/${id}"!</div>;
+ * }
+ * ```
+ *
+ * @param {Record<"id", string>} params - An object containing the URL parameter `id`
+ *   as a string. Typically provided by the TanStack Router during route parsing.
+ *
+ * @returns {{ id: number }} An object with the parsed and type-safe `id` parameter
+ *   as a number.
+ *
+ * @throws {ZodError} If the `id` parameter is missing or cannot be coerced into a number.
+ *
+ * @see {@link https://tanstack.com/router/latest/docs/framework/react/api/router/RouteOptionsType#paramsparse-method} For more details on TanStack Router path param parse.
+ */
+export const parseIdParams = (params: Record<"id", string>) => {
+  const schema = z.object({
+    id: z.coerce.number(),
+  });
+
+  return schema.parse(params);
+};

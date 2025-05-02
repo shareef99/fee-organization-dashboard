@@ -77,6 +77,17 @@ function RouteComponent() {
               />
             )}
           </Link>
+          <Link to="/parents">
+            {({ isActive }) => (
+              <NavLink
+                label="Parents"
+                className={twMerge(
+                  "text-p-text text- font-medium hover:bg-p-gray-light!",
+                  isActive && "bg-p-gray-light! hover:bg-p-gray-light!"
+                )}
+              />
+            )}
+          </Link>
         </AppShell.Section>
         <AppShell.Section>
           <Link to="/profile">

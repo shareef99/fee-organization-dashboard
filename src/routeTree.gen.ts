@@ -14,11 +14,16 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as DashboardImport } from './routes/_dashboard'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
+import { Route as DashboardStudentsIndexImport } from './routes/_dashboard/students/index'
 import { Route as DashboardStaffIndexImport } from './routes/_dashboard/staff/index'
 import { Route as DashboardProfileIndexImport } from './routes/_dashboard/profile/index'
+import { Route as DashboardParentsIndexImport } from './routes/_dashboard/parents/index'
 import { Route as DashboardOrganizationIndexImport } from './routes/_dashboard/organization/index'
 import { Route as DashboardNotAccessIndexImport } from './routes/_dashboard/not-access/index'
 import { Route as AuthLoginIndexImport } from './routes/_auth/login/index'
+import { Route as DashboardStudentsIdIndexImport } from './routes/_dashboard/students/$id/index'
+import { Route as DashboardParentsIdIndexImport } from './routes/_dashboard/parents/$id/index'
+import { Route as DashboardFeesIdIndexImport } from './routes/_dashboard/fees/$id/index'
 
 // Create/Update Routes
 
@@ -38,6 +43,12 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const DashboardStudentsIndexRoute = DashboardStudentsIndexImport.update({
+  id: '/students/',
+  path: '/students/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
 const DashboardStaffIndexRoute = DashboardStaffIndexImport.update({
   id: '/staff/',
   path: '/staff/',
@@ -47,6 +58,12 @@ const DashboardStaffIndexRoute = DashboardStaffIndexImport.update({
 const DashboardProfileIndexRoute = DashboardProfileIndexImport.update({
   id: '/profile/',
   path: '/profile/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardParentsIndexRoute = DashboardParentsIndexImport.update({
+  id: '/parents/',
+  path: '/parents/',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -68,6 +85,24 @@ const AuthLoginIndexRoute = AuthLoginIndexImport.update({
   id: '/login/',
   path: '/login/',
   getParentRoute: () => AuthRoute,
+} as any)
+
+const DashboardStudentsIdIndexRoute = DashboardStudentsIdIndexImport.update({
+  id: '/students/$id/',
+  path: '/students/$id/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardParentsIdIndexRoute = DashboardParentsIdIndexImport.update({
+  id: '/parents/$id/',
+  path: '/parents/$id/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardFeesIdIndexRoute = DashboardFeesIdIndexImport.update({
+  id: '/fees/$id/',
+  path: '/fees/$id/',
+  getParentRoute: () => DashboardRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -116,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardOrganizationIndexImport
       parentRoute: typeof DashboardImport
     }
+    '/_dashboard/parents/': {
+      id: '/_dashboard/parents/'
+      path: '/parents'
+      fullPath: '/parents'
+      preLoaderRoute: typeof DashboardParentsIndexImport
+      parentRoute: typeof DashboardImport
+    }
     '/_dashboard/profile/': {
       id: '/_dashboard/profile/'
       path: '/profile'
@@ -128,6 +170,34 @@ declare module '@tanstack/react-router' {
       path: '/staff'
       fullPath: '/staff'
       preLoaderRoute: typeof DashboardStaffIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/_dashboard/students/': {
+      id: '/_dashboard/students/'
+      path: '/students'
+      fullPath: '/students'
+      preLoaderRoute: typeof DashboardStudentsIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/_dashboard/fees/$id/': {
+      id: '/_dashboard/fees/$id/'
+      path: '/fees/$id'
+      fullPath: '/fees/$id'
+      preLoaderRoute: typeof DashboardFeesIdIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/_dashboard/parents/$id/': {
+      id: '/_dashboard/parents/$id/'
+      path: '/parents/$id'
+      fullPath: '/parents/$id'
+      preLoaderRoute: typeof DashboardParentsIdIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/_dashboard/students/$id/': {
+      id: '/_dashboard/students/$id/'
+      path: '/students/$id'
+      fullPath: '/students/$id'
+      preLoaderRoute: typeof DashboardStudentsIdIndexImport
       parentRoute: typeof DashboardImport
     }
   }
@@ -148,15 +218,25 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 interface DashboardRouteChildren {
   DashboardNotAccessIndexRoute: typeof DashboardNotAccessIndexRoute
   DashboardOrganizationIndexRoute: typeof DashboardOrganizationIndexRoute
+  DashboardParentsIndexRoute: typeof DashboardParentsIndexRoute
   DashboardProfileIndexRoute: typeof DashboardProfileIndexRoute
   DashboardStaffIndexRoute: typeof DashboardStaffIndexRoute
+  DashboardStudentsIndexRoute: typeof DashboardStudentsIndexRoute
+  DashboardFeesIdIndexRoute: typeof DashboardFeesIdIndexRoute
+  DashboardParentsIdIndexRoute: typeof DashboardParentsIdIndexRoute
+  DashboardStudentsIdIndexRoute: typeof DashboardStudentsIdIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardNotAccessIndexRoute: DashboardNotAccessIndexRoute,
   DashboardOrganizationIndexRoute: DashboardOrganizationIndexRoute,
+  DashboardParentsIndexRoute: DashboardParentsIndexRoute,
   DashboardProfileIndexRoute: DashboardProfileIndexRoute,
   DashboardStaffIndexRoute: DashboardStaffIndexRoute,
+  DashboardStudentsIndexRoute: DashboardStudentsIndexRoute,
+  DashboardFeesIdIndexRoute: DashboardFeesIdIndexRoute,
+  DashboardParentsIdIndexRoute: DashboardParentsIdIndexRoute,
+  DashboardStudentsIdIndexRoute: DashboardStudentsIdIndexRoute,
 }
 
 const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
@@ -169,8 +249,13 @@ export interface FileRoutesByFullPath {
   '/login': typeof AuthLoginIndexRoute
   '/not-access': typeof DashboardNotAccessIndexRoute
   '/organization': typeof DashboardOrganizationIndexRoute
+  '/parents': typeof DashboardParentsIndexRoute
   '/profile': typeof DashboardProfileIndexRoute
   '/staff': typeof DashboardStaffIndexRoute
+  '/students': typeof DashboardStudentsIndexRoute
+  '/fees/$id': typeof DashboardFeesIdIndexRoute
+  '/parents/$id': typeof DashboardParentsIdIndexRoute
+  '/students/$id': typeof DashboardStudentsIdIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -179,8 +264,13 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginIndexRoute
   '/not-access': typeof DashboardNotAccessIndexRoute
   '/organization': typeof DashboardOrganizationIndexRoute
+  '/parents': typeof DashboardParentsIndexRoute
   '/profile': typeof DashboardProfileIndexRoute
   '/staff': typeof DashboardStaffIndexRoute
+  '/students': typeof DashboardStudentsIndexRoute
+  '/fees/$id': typeof DashboardFeesIdIndexRoute
+  '/parents/$id': typeof DashboardParentsIdIndexRoute
+  '/students/$id': typeof DashboardStudentsIdIndexRoute
 }
 
 export interface FileRoutesById {
@@ -191,8 +281,13 @@ export interface FileRoutesById {
   '/_auth/login/': typeof AuthLoginIndexRoute
   '/_dashboard/not-access/': typeof DashboardNotAccessIndexRoute
   '/_dashboard/organization/': typeof DashboardOrganizationIndexRoute
+  '/_dashboard/parents/': typeof DashboardParentsIndexRoute
   '/_dashboard/profile/': typeof DashboardProfileIndexRoute
   '/_dashboard/staff/': typeof DashboardStaffIndexRoute
+  '/_dashboard/students/': typeof DashboardStudentsIndexRoute
+  '/_dashboard/fees/$id/': typeof DashboardFeesIdIndexRoute
+  '/_dashboard/parents/$id/': typeof DashboardParentsIdIndexRoute
+  '/_dashboard/students/$id/': typeof DashboardStudentsIdIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -203,8 +298,13 @@ export interface FileRouteTypes {
     | '/login'
     | '/not-access'
     | '/organization'
+    | '/parents'
     | '/profile'
     | '/staff'
+    | '/students'
+    | '/fees/$id'
+    | '/parents/$id'
+    | '/students/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -212,8 +312,13 @@ export interface FileRouteTypes {
     | '/login'
     | '/not-access'
     | '/organization'
+    | '/parents'
     | '/profile'
     | '/staff'
+    | '/students'
+    | '/fees/$id'
+    | '/parents/$id'
+    | '/students/$id'
   id:
     | '__root__'
     | '/'
@@ -222,8 +327,13 @@ export interface FileRouteTypes {
     | '/_auth/login/'
     | '/_dashboard/not-access/'
     | '/_dashboard/organization/'
+    | '/_dashboard/parents/'
     | '/_dashboard/profile/'
     | '/_dashboard/staff/'
+    | '/_dashboard/students/'
+    | '/_dashboard/fees/$id/'
+    | '/_dashboard/parents/$id/'
+    | '/_dashboard/students/$id/'
   fileRoutesById: FileRoutesById
 }
 
@@ -268,8 +378,13 @@ export const routeTree = rootRoute
       "children": [
         "/_dashboard/not-access/",
         "/_dashboard/organization/",
+        "/_dashboard/parents/",
         "/_dashboard/profile/",
-        "/_dashboard/staff/"
+        "/_dashboard/staff/",
+        "/_dashboard/students/",
+        "/_dashboard/fees/$id/",
+        "/_dashboard/parents/$id/",
+        "/_dashboard/students/$id/"
       ]
     },
     "/_auth/login/": {
@@ -284,12 +399,32 @@ export const routeTree = rootRoute
       "filePath": "_dashboard/organization/index.tsx",
       "parent": "/_dashboard"
     },
+    "/_dashboard/parents/": {
+      "filePath": "_dashboard/parents/index.tsx",
+      "parent": "/_dashboard"
+    },
     "/_dashboard/profile/": {
       "filePath": "_dashboard/profile/index.tsx",
       "parent": "/_dashboard"
     },
     "/_dashboard/staff/": {
       "filePath": "_dashboard/staff/index.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/students/": {
+      "filePath": "_dashboard/students/index.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/fees/$id/": {
+      "filePath": "_dashboard/fees/$id/index.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/parents/$id/": {
+      "filePath": "_dashboard/parents/$id/index.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/students/$id/": {
+      "filePath": "_dashboard/students/$id/index.tsx",
       "parent": "/_dashboard"
     }
   }
