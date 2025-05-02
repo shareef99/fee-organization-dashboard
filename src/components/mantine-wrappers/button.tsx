@@ -58,7 +58,8 @@ export default function Button({
         variant === "error-outline" &&
           "border-p-error! text-p-error! bg-transparent! hover:bg-p-error! focus:outline-p-error! hover:text-p-gray-light!",
         variant === "transparent" &&
-          "bg-transparent! text-p-text! hover:bg-p-gray-medium! focus:outline-p-gray-medium!"
+          "bg-transparent! text-p-text! hover:bg-p-gray-medium! focus:outline-p-gray-medium!",
+        props.className
       )}
       classNames={classNames}
     />
