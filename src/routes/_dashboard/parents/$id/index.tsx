@@ -6,6 +6,9 @@ import Title from "@/components/mantine-wrappers/title";
 import { formatNumber, parseIdParams } from "@/helpers";
 import EditParentModal from "@/routes/_dashboard/parents/-components/edit";
 import { getParentById } from "@/routes/_dashboard/parents/-queries";
+import AddStudentModal from "@/routes/_dashboard/students/-components/add";
+import EditStudentModal from "@/routes/_dashboard/students/-components/edit";
+import { Student } from "@/types/student";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
@@ -28,6 +31,8 @@ function RouteComponent() {
 
   // States
   const [editModal, setEditModal] = useState(false);
+  const [addStudentModal, setAddStudentModal] = useState(false);
+  const [editStudentModal, setEditStudentModal] = useState<Student>();
 
   return (
     <section>
@@ -56,13 +61,18 @@ function RouteComponent() {
       <div className="my-4">
         <div className="mb-4 flex items-center justify-between">
           <Title order={2}>Students</Title>
-          <Button>Add</Button>
+          <Button onClick={() => setAddStudentModal(true)}>Add</Button>
         </div>
         {data.students.length === 0 && <div>No students found</div>}
         <div className="space-y-4">
           {data.students.map((student) => (
             <Paper className="relative">
-              <Button className="absolute! top-4! right-4!">Edit</Button>
+              <Button
+                className="absolute! top-4! right-4!"
+                onClick={() => setEditStudentModal(student)}
+              >
+                Edit
+              </Button>
               <div className="py-4 px-2 grid grid-cols-3 gap-4">
                 <div>
                   <div className="font-medium">ID : </div>
@@ -175,7 +185,22 @@ function RouteComponent() {
         opened={editModal}
         onClose={() => setEditModal(false)}
         parent={data}
+        key={Math.random()}
       />
+      <AddStudentModal
+        opened={addStudentModal}
+        onClose={() => setAddStudentModal(false)}
+        parentId={data.id}
+        key={Math.random()}
+      />
+      {editStudentModal && (
+        <EditStudentModal
+          opened={!!editStudentModal}
+          onClose={() => setEditStudentModal(undefined)}
+          student={editStudentModal}
+          key={Math.random()}
+        />
+      )}
     </section>
   );
 }

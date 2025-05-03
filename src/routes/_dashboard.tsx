@@ -60,7 +60,7 @@ function RouteComponent() {
               <NavLink
                 label="Organization"
                 className={twMerge(
-                  "text-p-text text- font-medium hover:bg-p-gray-light!",
+                  "text-p-text font-medium hover:bg-p-gray-light!",
                   isActive && "bg-p-gray-light! hover:bg-p-gray-light!"
                 )}
               />
@@ -71,7 +71,7 @@ function RouteComponent() {
               <NavLink
                 label="Staff"
                 className={twMerge(
-                  "text-p-text text- font-medium hover:bg-p-gray-light!",
+                  "text-p-text font-medium hover:bg-p-gray-light!",
                   isActive && "bg-p-gray-light! hover:bg-p-gray-light!"
                 )}
               />
@@ -82,7 +82,18 @@ function RouteComponent() {
               <NavLink
                 label="Parents"
                 className={twMerge(
-                  "text-p-text text- font-medium hover:bg-p-gray-light!",
+                  "text-p-text font-medium hover:bg-p-gray-light!",
+                  isActive && "bg-p-gray-light! hover:bg-p-gray-light!"
+                )}
+              />
+            )}
+          </Link>
+          <Link to="/students">
+            {({ isActive }) => (
+              <NavLink
+                label="Students"
+                className={twMerge(
+                  "text-p-text font-medium hover:bg-p-gray-light!",
                   isActive && "bg-p-gray-light! hover:bg-p-gray-light!"
                 )}
               />
@@ -95,7 +106,7 @@ function RouteComponent() {
               <NavLink
                 label="Profile"
                 className={twMerge(
-                  "text-p-text text- font-medium hover:bg-p-gray-light!",
+                  "text-p-text font-medium hover:bg-p-gray-light!",
                   isActive && "bg-p-gray-light! hover:bg-p-gray-light!"
                 )}
               />

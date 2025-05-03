@@ -1,3 +1,8 @@
+import { Gender } from "@/types/enums";
+import { Fee } from "@/types/fee";
+import { Parent } from "@/types/parent";
+import { AcademicYear, Grade } from "@/types/settings";
+
 export type Student = {
   id: number;
   organization_id: number;
@@ -6,10 +11,21 @@ export type Student = {
   academic_year_id: number;
   name: string;
   email: string;
-  mobile: string;
+  mobile: string | null;
   dob: string | null;
-  gender: string | null;
+  gender: Gender | null;
   is_active: boolean;
   updated_at: string;
   created_at: string;
+};
+
+export type StudentList = Student & {
+  parent: Parent;
+};
+
+export type StudentDetail = Student & {
+  grade: Grade;
+  academic_year: AcademicYear;
+  parent: Parent;
+  fees: Fee[];
 };
